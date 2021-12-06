@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "types": [
+      "node",
+      "webdriverio/async",
+      "@wdio/mocha-framework",
+      "expect-webdriverio",
+    ],
+    "lib": [
+      "es6"
+    ],
+    "outDir": "./dist",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "skipLibCheck": true,
+    "module": "commonjs"
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "dist/**/*"
+  ]
+}
