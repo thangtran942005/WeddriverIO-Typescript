@@ -1,10 +1,5 @@
-// const allure = require('allure-commandline')
-// const fs = require('fs')
-// const CustomReporter = require('./custom/custom.report')
-// const AllureService = require('./custom/allure.report.service')
-// import allure from 'allure-commandline';
-// import fs from 'fs'
 import AllureService from './custom/allure.report.service';
+
 exports.config = {
     //
     // ====================
@@ -27,9 +22,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [
-        './test/specs/**/*.ts'
-    ],
+    specs: ['./test/specs/**/*.ts'],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -56,8 +49,8 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
-
+    capabilities: [
+        {
             // maxInstances can get overwritten per capability. So if you have an in-house Selenium
             // grid with only 5 firefox instances available you can make sure that not more than
             // 5 instances get started at a time.
@@ -120,10 +113,15 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     // services: ['chromedriver'],
-    services: ['chromedriver', [AllureService, {
-                outputDir: __dirname + '/My-allure-report'
+    services: [
+        'chromedriver',
+        [
+            AllureService,
+            {
+                outputDir: `${__dirname}/allure-report`
             }
-        ]],
+        ]
+    ],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -137,7 +135,7 @@ exports.config = {
     // specFileRetries: 1,
 
     // Delay in seconds between the spec file retry attempts
-    // specFileRetriesDelay: 0,
+    // specFileRetriesDelay: 1,
     //
     // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
     // specFileRetriesDeferred: false,
@@ -145,24 +143,27 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec', ['allure', {
+    reporters: [
+        'spec',
+        [
+            'allure',
+            {
                 outputDir: 'allure-results',
                 disableWebdriverStepsReporting: true,
-                disableWebdriverScreenshotsReporting: true,
+                disableWebdriverScreenshotsReporting: true
             }
-        ]]
+        ]
+    ],
     // reporters: ['spec', CustomReporter]//[CustomReporter, {
     // outputDir: 'custom-report',
     // showStates: true
     // }]],
-,
-
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 120000
     },
     autoCompileOpts: {
         autoCompile: true,
@@ -261,9 +262,15 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
-
+    afterTest: function (
+        test,
+        context,
+        { error, result, duration, passed, retries }
+    ) {
+        if (error) {
+            browser.takeScreenshot();
+        }
+    }
 
     /**
      * Hook that gets executed after the suite has ended
@@ -330,6 +337,6 @@ exports.config = {
      * @param {String} oldSessionId session ID of the old session
      * @param {String} newSessionId session ID of the new session
      */
-    //onReload: function(oldSessionId, newSessionId) {
-    //}
+    // onReload: function(oldSessionId, newSessionId) {
+    // }
 };
