@@ -21,15 +21,15 @@ export default class AllureReporter {
             '-o',
             this.outputDir
         ]);
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             const generationTimeout = setTimeout(
                 () => reject(new Error('Could not generate Allure report')),
                 60000
             );
 
-            generation.on('exit', (exitCode) => {
+            generation.on('exit', () => {
                 clearTimeout(generationTimeout);
-                console.log('Allure report successfully generated');
+                // console.log('Allure report successfully generated');
                 resolve();
             });
         });

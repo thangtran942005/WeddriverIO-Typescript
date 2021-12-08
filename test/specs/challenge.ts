@@ -35,28 +35,28 @@ describe('Take the challenge', () => {
 
     it('Take the challenge: 5. Change the price filter', async () => {
         await ProductsPage.takeTheChallengePriceFilter();
-        expect(await HomePage.getCheckResult()).to.equal(
+        expect(await ProductsPage.getCheckResult()).to.equal(
             'Your answer is correct!'
         );
     });
 
     it('Take the challenge: 6. Add to cart', async () => {
         await ProductsPage.takeTheChallengeAddCart();
-        expect(await HomePage.getCheckResult()).to.equal(
+        expect(await ProductsPage.getCheckResult()).to.equal(
             'Your answer is correct!'
         );
     });
 
     it('Take the challenge: 7. Find the suiable products', async () => {
         await ProductsPage.takeTheChallengesSuiableProducts();
-        expect(await HomePage.getCheckResult()).to.equal(
+        expect(await ProductsPage.getCheckResult()).to.equal(
             'Your answer is correct!'
         );
     });
 
     it('Take the challenge: 8. Update the cart', async () => {
         await CartPage.takeTheChallengeUpdateCart();
-        expect(await HomePage.getCheckResult()).to.equal(
+        expect(await CartPage.getCheckResult()).to.equal(
             'Your answer is correct!'
         );
     });

@@ -40,7 +40,7 @@ class ProductsPage extends Page {
         return super.open('products');
     }
 
-    async setPriceValue(element, value) {
+    async selectSliderValue(element, value: number) {
         await element.click();
         let iCurrentValue = await element.getAttribute('aria-valuenow');
         iCurrentValue = parseInt(iCurrentValue);
@@ -53,10 +53,16 @@ class ProductsPage extends Page {
                 await browser.keys('ArrowLeft');
             }
         }
-        iCurrentValue = await element.getAttribute('aria-valuenow');
     }
 
-    async addToCart(index) {
+    async setPriceValue(minPrice: number, maxPrice: number) {
+        await this.sldPriceRange.scrollIntoView(false);
+        await this.sldPriceRange.click({ x: 20, y: 10 });
+        await this.selectSliderValue(this.sldMax, maxPrice);
+        await this.selectSliderValue(this.sldMin, minPrice);
+    }
+
+    async addToCart(index: number) {
         const product = this.listProduct[index];
         await product.scrollIntoView();
         await browser.pause(500);
@@ -78,10 +84,8 @@ class ProductsPage extends Page {
         await this.selectChallenge('5. Change the price filter');
         const iMinPrice = await this.getNumberValue(this.lblMinPrice);
         const iMaxPrice = await this.getNumberValue(this.lblMaxPrice);
-        // Move to Slider and change Min and Max value
-        await this.sldMin.dragAndDrop({ x: 5, y: 5 });
-        await this.setPriceValue(this.sldMax, iMaxPrice);
-        await this.setPriceValue(this.sldMin, iMinPrice);
+        // Change Min and Max Price value
+        await this.setPriceValue(iMinPrice, iMaxPrice);
         // Get total Products
         let iTotalProduct = await this.listProduct.length;
         const strTotalPage = await this.lnkGoPage.getProperty('textContent');
@@ -130,9 +134,7 @@ class ProductsPage extends Page {
         await uiCheckbox(strCategory).scrollIntoView(false);
         await uiCheckbox(strCategory).click();
         await uiCheckbox(strSize).click();
-        await this.sldPriceRange.click({ x: 10, y: 10 });
-        await this.setPriceValue(this.sldMax, iMaxPrice);
-        await this.setPriceValue(this.sldMin, iMinPrice);
+        await this.setPriceValue(iMinPrice, iMaxPrice);
         await this.btnShowAllChallenges.dragAndDrop(await this.sldMin);
         await browser.pause(500);
         await this.btnMaximize.click();

@@ -24,7 +24,7 @@ class HomePage extends Page {
         return super.open('');
     }
 
-    async takeTheChallengeDiscount(): Promise<void> {
+    async takeTheChallengeDiscount() {
         await uiButton('TAKE THE CHALLENGE').click();
         await this.selectChallenge('1. Find the discount');
         const iDiscount = await this.getNumberValue(this.lblDiscount);
