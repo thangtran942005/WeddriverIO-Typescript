@@ -43,12 +43,12 @@ export default class Page {
      * Opens a sub page of the page
      * @param path path of the sub page (e.g. /path/to/page.html)
      */
-    open(path) {
+    open(path: string) {
         browser.url(`/${path}`);
         browser.maximizeWindow();
     }
 
-    async selectChallenge(challenge) {
+    async selectChallenge(challenge: string) {
         await this.btnShowAllChallenges.click();
         await $(`//p[text()="${challenge}"]`).click();
     }
@@ -57,7 +57,7 @@ export default class Page {
         return await this.lblCheckResult.getText();
     }
 
-    async getNumberValue(element) {
+    async getNumberValue(element: WebdriverIO.Element) {
         const strText = await element.getText();
         return parseInt(strText.replace(/[^0-9]/g, ''));
     }

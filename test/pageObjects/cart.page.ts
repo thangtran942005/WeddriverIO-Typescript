@@ -39,12 +39,12 @@ class CartPage extends Page {
         await this.btnAdd.scrollIntoView(false);
         while (iSubtotal > iMaxPrice) {
             await this.btnRemove.click();
-            browser.pause(500);
+            browser.pause(200);
             iSubtotal = await this.getNumberValue(this.lblSubtotal);
         }
         while (iSubtotal < iMinPrice) {
             await this.btnAdd.click();
-            browser.pause(500);
+            browser.pause(200);
             iSubtotal = await this.getNumberValue(this.lblSubtotal);
         }
         await uiButton('CHECK').click();

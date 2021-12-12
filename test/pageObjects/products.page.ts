@@ -42,8 +42,8 @@ class ProductsPage extends Page {
 
     async selectSliderValue(element, value: number) {
         await element.click();
-        let iCurrentValue = await element.getAttribute('aria-valuenow');
-        iCurrentValue = parseInt(iCurrentValue);
+        let strCurrentValue = await element.getAttribute('aria-valuenow');
+        let iCurrentValue = parseInt(strCurrentValue);
         if (value >= iCurrentValue) {
             for (let i = 1; i <= value - iCurrentValue; i++) {
                 await browser.keys('ArrowRight');
@@ -56,8 +56,7 @@ class ProductsPage extends Page {
     }
 
     async setPriceValue(minPrice: number, maxPrice: number) {
-        await this.sldPriceRange.scrollIntoView(false);
-        await this.sldPriceRange.click({ x: 20, y: 10 });
+        await this.sldPriceRange.dragAndDrop({ x: -100, y: 0 });
         await this.selectSliderValue(this.sldMax, maxPrice);
         await this.selectSliderValue(this.sldMin, minPrice);
     }
@@ -65,7 +64,7 @@ class ProductsPage extends Page {
     async addToCart(index: number) {
         const product = this.listProduct[index];
         await product.scrollIntoView();
-        await browser.pause(500);
+        await browser.pause(200);
         await product.moveTo();
         await this.btnAddCart.waitForClickable({ timeout: 3000 });
         await this.btnAddCart.click();
@@ -91,7 +90,7 @@ class ProductsPage extends Page {
         const strTotalPage = await this.lnkGoPage.getProperty('textContent');
 
         // Count next page if have
-        if (strTotalPage != '') {
+        if (strTotalPage !== '') {
             const iTotalPage = parseInt(strTotalPage);
             iTotalProduct *= iTotalPage - 1;
             await this.lnkGoPage.click();
@@ -99,9 +98,7 @@ class ProductsPage extends Page {
             iTotalProduct += iLastestPage;
         }
         // Set total Products
-        await uiTextbox(`How many products are there ?`).setValue(
-            iTotalProduct
-        );
+        await uiTextbox(`How many products are there ?`).setValue(iTotalProduct);
         await uiButton('CHECK').click();
     }
 
@@ -111,7 +108,7 @@ class ProductsPage extends Page {
         const strTotalPage = await this.lnkGoPage.getProperty('textContent');
         // Add All Products to Cart
         await this.addAllProductsToCart();
-        if (strTotalPage != '') {
+        if (strTotalPage !== '') {
             // Multiple pages
             const iTotalPage = parseInt(strTotalPage) - 1;
             for (let i = iTotalPage; i > 0; i--) {
@@ -130,14 +127,11 @@ class ProductsPage extends Page {
         const iMinPrice = await this.getNumberValue(this.lblMinPrice);
         const iMaxPrice = await this.getNumberValue(this.lblMaxPrice);
         // Select products information
-        await this.btnMinimize.dragAndDrop(await this.btnCart);
-        await uiCheckbox(strCategory).scrollIntoView(false);
-        await uiCheckbox(strCategory).click();
-        await uiCheckbox(strSize).click();
+        await this.lblCategory.dragAndDrop({ x: 300, y: 0 });
+        await uiCheckbox(strCategory).click({ force: true });
+        await uiCheckbox(strSize).click({ force: true });
         await this.setPriceValue(iMinPrice, iMaxPrice);
-        await this.btnShowAllChallenges.dragAndDrop(await this.sldMin);
-        await browser.pause(500);
-        await this.btnMaximize.click();
+        await this.lblCategory.dragAndDrop({ x: -300, y: 0 });
         await uiButton('CHECK').click();
     }
 }

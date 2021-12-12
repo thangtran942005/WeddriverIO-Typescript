@@ -1,8 +1,12 @@
 import * as fs from 'fs';
 
-const allure = require('allure-commandline');
+// import allure from 'allure-commandline';
+// const allure = require('allure-commandline');
+import allure = require('allure-commandline');
 
 export default class AllureReporter {
+    outputDir:string;
+
     constructor(options) {
         this.outputDir = options.outputDir || `${__dirname  }/allure-report`;
     }

@@ -150,7 +150,7 @@ exports.config = {
             {
                 outputDir: 'allure-results',
                 disableWebdriverStepsReporting: true,
-                disableWebdriverScreenshotsReporting: true
+                disableWebdriverScreenshotsReporting: false
             }
         ]
     ],
@@ -262,11 +262,8 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    afterTest: function (
-        test,
-        context,
-        { error, result, duration, passed, retries }
-    ) {
+    //  afterTest (test, context,{ error, result, duration, passed, retries }) {
+    afterTest (test, context,{ error }) {
         if (error) {
             browser.takeScreenshot();
         }

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { uiButton, uiRadio, uiMenu, uiTextbox } from './controls';
 import Page from './page';
 

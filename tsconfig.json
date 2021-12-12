@@ -8,14 +8,14 @@
       "expect-webdriverio",
     ],
     "lib": [
-      "es6"
+      "es5"
     ],
     "outDir": "./dist",
     "typeRoots": [
       "./node_modules/@types"
     ],
     "skipLibCheck": true,
-    "module": "commonjs"
+    // "module": "commonjs"
   },
   "include": [
     "./**/*"
