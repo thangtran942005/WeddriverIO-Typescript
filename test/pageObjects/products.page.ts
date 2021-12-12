@@ -64,7 +64,7 @@ class ProductsPage extends Page {
     async addToCart(index: number) {
         const product = this.listProduct[index];
         await product.scrollIntoView();
-        await browser.pause(200);
+        await browser.pause(500);
         await product.moveTo();
         await this.btnAddCart.waitForClickable({ timeout: 3000 });
         await this.btnAddCart.click();
